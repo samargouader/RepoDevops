@@ -7,22 +7,30 @@ pipeline {
     }
 
     stages {
-        stage('Checkout') {
+        stage('GIT') {
             steps {
                 echo "Récupération du code depuis GitHub..."
                 checkout scm
+                sh 'git log --oneline -5'
             }
         }
 
         stage('Compile') {
             steps {
+                echo "Compilation du projet..."
                 sh 'mvn -B clean compile'
             }
         }
 
         stage('Tests unitaires') {
             steps {
-                sh 'mvn -B test -DskipTests'
+                echo "Exécution des tests unitaires..."
+                sh 'mvn -B test'
+            }
+            post {
+                always {
+                    junit 'target/surefire-reports/*.xml'
+                }
             }
         }
 
@@ -41,7 +49,11 @@ pipeline {
     }
 
     post {
-        success { echo 'Build réussi ! Le JAR est généré et archivé.' }
-        failure { echo 'Échec du build – voir la console pour les erreurs.' }
+        success { 
+            echo '✅ Build réussi ! Le JAR est généré et archivé.'
+        }
+        failure { 
+            echo '❌ Échec du build – voir la console pour les erreurs.'
+        }
     }
 }
