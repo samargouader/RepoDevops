@@ -1,4 +1,4 @@
-FROM openjdk:17
+FROM openjdk:17-jdk
 EXPOSE 8089
-ADD target/student-management-1.0.jar StudentManagement.jar
-ENTRYPOINT ["java", "-jar" ,  "StudentManagement.jar"]
+ADD target/student-management-0.0.1-SNAPSHOT.jar StudentManagement.jar
+CMD ["java", "-jar", "StudentManagement.jar"]
