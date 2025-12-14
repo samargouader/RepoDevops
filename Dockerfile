@@ -1,4 +1,5 @@
-FROM openjdk:17.0.8-jdk-slim
+FROM eclipse-temurin:17-jdk
+
 EXPOSE 8089
 ADD target/student-management-0.0.1-SNAPSHOT.jar StudentManagement.jar
 CMD ["java", "-jar", "StudentManagement.jar"]
