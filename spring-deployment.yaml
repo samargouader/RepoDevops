@@ -1,24 +1,24 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: stationskicontainer
+  name: StudentManagement
   namespace: devops
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: stationskicontainer
+      app: StudentManagement
   template:
     metadata:
       labels:
-        app: stationskicontainer
+        app: StudentManagement
     spec:
       initContainers:
         - name: wait-for-mysql
           image: busybox
           command: ['sh', '-c', 'until nc -z mysql-service 3306; do echo waiting for mysql; sleep 3; done']
       containers:
-        - name: stationskicontainer
+        - name: StudentManagement
           image: samargouader001/StudentManagement:latest
           ports:
             - containerPort: 8089
@@ -42,7 +42,7 @@ metadata:
   namespace: devops
 spec:
   selector:
-    app: stationskicontainer
+    app: StudentManagement
   ports:
     - protocol: TCP
       port: 8089
